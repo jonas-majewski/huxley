@@ -1,0 +1,23 @@
+{% extends 'base-outer.html' %}
+
+{% block title %} Forgot your Huxley Username? {% endblock title %}
+
+{% block content %}
+	<h1>Forgot your Username?</h1>
+	<p>No problem. Just enter your email below, and we'll send your username to your email address.</p>
+	<a class="js-nav outer-nav arrow-left" href="{% url 'accounts:login' %}">Back to login</a>
+	<hr />
+	<form id="password-reset" class="login-form" action="{% url 'accounts:forgot_username' %}" method="post">
+		{% csrf_token %}
+		<div class="login-fields">
+			<input class="text empty" type="text" name="email" placeholder="Email Address" />
+		</div>
+		<button class="button button-green send-username-button rounded-small" type="submit">Send Username</button>
+		<span class="help-text">You'll get an email shortly.</span>
+		<div id="errorcontainer">
+			{% if error %}
+				<label class="error">Sorry, we couldn't find a user for the email given.</label>
+			{% endif %}
+		</div>
+	</form>
+{% endblock content %}
