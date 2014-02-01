@@ -128,6 +128,21 @@ def reset_password(request):
 
     return render_template(request, 'password-reset.html')
 
+def forgot_username(request):
+    if request.method == 'POST':
+        EMAIL = request.POST.get('email')
+        USERNAME = HuxleyUser.objects.get(school=School.objects.get(primary_email= EMAIL)).username
+        print(USERNAME)
+        if USERNAME:
+            if not settings.DEBUG:
+                user.email_user("Huxley Username Reminder",
+                                "Your username is %s.\nThank you for using Huxley!" % (USERNAME),
+                                from_email="no-reply@bmun.org")
+                return render_template(request, 'forgot-username-success.html')
+        else:
+            return render_template(request, 'forgot-username.html', {'error': True})
+    return render_template(request, 'forgot-username.html')
+
 
 @require_GET
 def validate_unique_user(request):
